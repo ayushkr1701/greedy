@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import DatePicker from "react-date-picker";
-import "react-datepicker/dist/react-datepicker.css";
 
 export default function DataTable() {
   const [startDate, setStartDate] = useState();
@@ -32,7 +31,7 @@ export default function DataTable() {
 
 
   const rows = data.map(item => (
-    
+    //Displaying data fetched from api in table.
     <tr key={item.app_id}>
       <td style={{ display: columns.app_id ? 'table-cell' : 'none' }}>{item.app_id}</td>
       <td style={{ display: columns.date ? 'table-cell' : 'none' }}>{((item.date).slice(0,10))}</td>
@@ -43,7 +42,7 @@ export default function DataTable() {
     </tr>
   ));
 
-  // Render checkboxes to toggle column visibility
+  // Render checkboxes to show/hide columns 
   const checkboxes = Object.keys(columns).map(key => (
     <label key={key} className='data'>
       <input
@@ -62,26 +61,20 @@ export default function DataTable() {
 
   return (
     <div >
-      
+      //Date picker to initiate API
       <div className='data'>
       <>Enter start date: </>
       <DatePicker
-        
         dateFormat="y-MM-dd"
         maxDate={new Date("2021-06-31")}
         minDate={new Date("2021-06-01")}
         onChange={setStartDate}
         value={startDate}
-        placeholderText="Select start date"
       />
       </div>
       <div className='data'>
       <>Enter end date: </>
       <DatePicker
-        // selected={endDate}
-        // dateFormat="yyyy-MM-dd"
-        // onChange={(e) => setEndDate(e)}
-        // placeholderText="Select end date"
         dateFormat="y-MM-dd"
         maxDate={new Date("2021-06-31")}
         minDate={new Date("2021-06-01")}
