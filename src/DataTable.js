@@ -61,7 +61,6 @@ export default function DataTable() {
 
   return (
     <div >
-      //Date picker to initiate API
       <div className='data'>
       <>Enter start date: </>
       <DatePicker
