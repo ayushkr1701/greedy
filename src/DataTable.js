@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import './App.css'
+import './App.css';
+import DatePicker from "react-date-picker";
+import "react-datepicker/dist/react-datepicker.css";
 
 export default function DataTable() {
+  const [startDate, setStartDate] = useState();
+  const [endDate, setEndDate] = useState();
   const [data, setData] = useState([]);
   const [columns, setColumns] = useState({
     app_id: true,
@@ -15,14 +19,16 @@ export default function DataTable() {
 
   // Fetch data from API
   useEffect(() => {
+    if(startDate && endDate){
     async function fetchData() {
-      const response = await fetch('http://go-dev.greedygame.com/v3/dummy/report?startDate=2021-05-01&endDate=2021-05-03');
+      const response = await fetch(`http://go-dev.greedygame.com/v3/dummy/report?startDate=${(startDate.toISOString()).slice(0,10)}&endDate=${(endDate.toISOString()).slice(0,10)}`);
       const json = await response.json();
       setData(json.data);
       console.log(json.data);
     }
     fetchData();
-  }, []);
+  }
+  }, [startDate, endDate]);
 
 
   const rows = data.map(item => (
@@ -55,7 +61,35 @@ export default function DataTable() {
   ));
 
   return (
-    <div>
+    <div >
+      
+      <div className='data'>
+      <>Enter start date: </>
+      <DatePicker
+        
+        dateFormat="y-MM-dd"
+        maxDate={new Date("2021-06-31")}
+        minDate={new Date("2021-06-01")}
+        onChange={setStartDate}
+        value={startDate}
+        placeholderText="Select start date"
+      />
+      </div>
+      <div className='data'>
+      <>Enter end date: </>
+      <DatePicker
+        // selected={endDate}
+        // dateFormat="yyyy-MM-dd"
+        // onChange={(e) => setEndDate(e)}
+        // placeholderText="Select end date"
+        dateFormat="y-MM-dd"
+        maxDate={new Date("2021-06-31")}
+        minDate={new Date("2021-06-01")}
+        onChange={setEndDate}
+        value={endDate}
+      />
+      </div>
+
       {checkboxes}
       <table className='data'>
         <thead className='tablehead'>
